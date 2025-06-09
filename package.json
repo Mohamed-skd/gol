@@ -1,0 +1,12 @@
+{
+  "name": "jeu-de-la-vie",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "meta": "node meta.js"
+  },
+  "author": "Moh. SD",
+  "private": true,
+  "type": "module",
+  "license": "ISC"
+}
