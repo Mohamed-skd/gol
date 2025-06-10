@@ -28,18 +28,36 @@ body > header {
   }
 }
 body > main {
-  margin: 1rem auto;
+  margin: 0 auto;
   & > section {
-    margin: 1rem auto;
+    margin: 0 auto;
     width: min(80rem, 100% - 1rem);
   }
-}
-body > footer {
-  margin-top: 2rem;
-  padding: 0.2rem 2rem;
 }
 
 /* CMPS */
 canvas {
-  background-color: white;
+  background-color: black;
+}
+
+aside {
+  margin-block: 1rem;
+  padding: 1rem;
+  @media (width > 40rem) {
+    grid-template-columns: 3fr 1fr;
+  }
+
+  select, .bt {
+    padding: 1rem;
+    width: 100%;
+    font-weight: bold;
+  }
+  select option {
+    text-align: center;
+  }
+  .bt {
+    @media (width > 40rem) {
+      grid-area: 1/2/2/3;
+    }
+  }
 }

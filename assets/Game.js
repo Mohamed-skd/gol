@@ -1,3 +1,7 @@
+import { NumberFn } from "./scripts/lib.js"
+
+const numFn= new NumberFn()
+
 export class Cell {
   constructor(x, y, live=false) {
     this.x= x
@@ -11,7 +15,12 @@ export class Cell {
     ]
 
     ctxt.beginPath()
+    ctxt.fillStyle= this.#style(120, 100, 50)
     ctxt.fillRect(this.x*cellSize[0], this.y*cellSize[1], cellSize[0], cellSize[1])
     ctxt.closePath()
+  }
+
+  #style(h,s,l){
+    return `hsl(${h}, ${s}%, ${l}%)` 
   }
 }

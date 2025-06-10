@@ -1,34 +1,52 @@
-import { FetchFn } from "./scripts/lib.js";
+import { FetchFn, NumberFn } from "./scripts/lib.js";
 import { DomFn } from "./scripts/client.js";
 import { Cell } from "./Game.js"
 
 // UTILS
 const domFn = new DomFn();
 const fetchFn= new FetchFn()
+const numFn= new NumberFn()
 
 // APP
+const select= domFn.select("aside > select")
+const button= domFn.select("aside > button")
 const canvas= domFn.select("canvas")
 const ctxt= canvas.getContext("2d")
-ctxt.size= 40
+ctxt.size= 100
 
 const width= canvas.width
 const height= canvas.height
 const schemas= await fetchFn.get(null, "json", "/assets/GameSchemas.json")
-let state= []
+const {
+  clignotant, 
+  croix, 
+  galaxie, 
+  planeur, 
+  LWSS,
+  canon
+} = schemas
+const all= [...clignotant, ...croix, ...galaxie, ...planeur, ...LWSS, ...canon]
+let state
 let startTime
 
 function initState(schema= []){
+  state= []
+
   for (let i=0; i<ctxt.size; i++){
     state.push([])
+  
     for (let j=0; j<ctxt.size; j++){
-      state[i].push(new Cell(j, i))
+      state[i][j]= new Cell(j, i)
     }
   }
+  
   schema.forEach(c=>{
     state[c[1]][c[0]].live= true
   })
 }
 function drawGrid(){
+  ctxt.strokeStyle= "white"
+
   for (let i=0, j=-ctxt.size; j<ctxt.size; i++, j++){
     if (j>=0) {
       const col= width/ctxt.size
@@ -103,7 +121,7 @@ function loop(time){
     startTime= time
     return requestAnimationFrame(loop)
   }
-  if (time < startTime + 200){
+  if (time < startTime + 160){
     return requestAnimationFrame(loop)
   }
   startTime= time
@@ -120,6 +138,50 @@ function loop(time){
   return requestAnimationFrame(loop)
 }
 
-initState(schemas[0])
+function changeState(e){
+  const target= e.target
+  const newS= parseInt(target.value)
+  let schema
+
+  switch (newS) {
+    case 1:
+      schema= clignotant.concat(planeur)
+      break
+    case 2:
+      schema= croix.concat(LWSS)
+      break
+    case 3:
+      schema= galaxie.concat(canon)
+      break
+    case 4:
+      schema= all
+      break
+    default:
+      schema= schemas[target.value]
+      break
+  }
+
+  initState(schema)
+}
+function randState(){
+  const newS= []
+
+  for (let i=0; i<state.length; i++){
+    newS.push([])
+
+    for (let j=0; j<state.length; j++){
+      const rand= numFn.rand(100)
+      
+      newS[i][j]= new Cell(j,i)
+      newS[i][j].live= rand < 10
+    }
+  }
+
+  state= newS
+}
+
+initState(galaxie)
 loop()
+select.addEventListener("change", changeState)
+button.addEventListener("click", randState)
 

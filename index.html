@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-  <html lang="fr">
-  <head>
+<html lang="fr">
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="" />
@@ -35,8 +35,31 @@
 
   <main>
     <section>
-      <canvas width="800" height="600"><canvas>
+      <canvas width="1200" height="900"></canvas>
+
+      <aside class="grid">
+	<select>
+	  <optgroup label="Unique">
+	    <option value="clignotant">Clignotant</option>
+	    <option value="croix">Croix</option>
+	    <option value="galaxie" selected>Galaxie</option>
+	    <option value="planeur">Planeur</option>
+	    <option value="LWSS">LWSS</option>
+	    <option value="canon">Canon à planeur</option>
+	  </optgroup>
+
+	  <optgroup label="Multiple">
+	    <option value="1">Clignotant + Planeur</option>
+	    <option value="2">Croix + LWSS</option>
+	    <option value="3">Galaxie + Canon</option>
+	    <option value="4">Tout</option>
+	  </optgroup>
+	</select>
+
+	<button class="bt">Random</button>
+      </aside>
     <section>
   </main>
 </body>
 </html>
+
