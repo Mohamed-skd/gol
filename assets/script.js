@@ -16,7 +16,7 @@ ctxt.size= 100
 
 const width= canvas.width
 const height= canvas.height
-const schemas= await fetchFn.get(null, "json", "/assets/GameSchemas.json")
+const schemas= await fetchFn.get(null, "json", location.href + "assets/GameSchemas.json")
 const {
   clignotant, 
   croix, 
