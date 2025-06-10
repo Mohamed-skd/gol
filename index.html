@@ -20,11 +20,11 @@
   <meta name="twitter:image" content="./assets/imgs/vignette.png">
   <base target="_blank" />
   <link rel="canonical" href="">
-  <link rel="shortcut icon" href="./assets/imgs/icon.png" type="image/png" />
-  <!-- <link rel="stylesheet" href="./dist/style.css" /> -->
-  <link rel="stylesheet" href="./assets/style.css" />
-  <!-- <script type="module" src="./dist/script.js"></script> -->
-  <script type="module" src="./assets/script.js"></script>
+  <link rel="shortcut icon" href="./assets/imgs/icon.gif" type="image/gif" />
+  <link rel="stylesheet" href="./dist/style.css" />
+  <!-- <link rel="stylesheet" href="./assets/style.css" /> -->
+  <script type="module" src="./dist/script.js"></script>
+  <!-- <script type="module" src="./assets/script.js"></script> -->
   <title>Jeu de la vie</title>
 </head>
 
@@ -34,25 +34,24 @@
   </header>
 
   <main>
-    <section>
-      <canvas width="1200" height="900"></canvas>
+    <section class="grid">
+      <canvas width="1000" height="600"></canvas>
 
       <aside class="grid">
 	<select>
+	  <option> --- Choisissez --- </option>
 	  <optgroup label="Unique">
 	    <option value="clignotant">Clignotant</option>
 	    <option value="croix">Croix</option>
 	    <option value="galaxie" selected>Galaxie</option>
 	    <option value="planeur">Planeur</option>
 	    <option value="LWSS">LWSS</option>
-	    <option value="canon">Canon à planeur</option>
 	  </optgroup>
 
 	  <optgroup label="Multiple">
 	    <option value="1">Clignotant + Planeur</option>
 	    <option value="2">Croix + LWSS</option>
-	    <option value="3">Galaxie + Canon</option>
-	    <option value="4">Tout</option>
+	    <option value="3">Tout</option>
 	  </optgroup>
 	</select>
 

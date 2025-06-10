@@ -36,28 +36,25 @@ body > main {
 }
 
 /* CMPS */
+section.grid {
+  @media (width > 40rem) {
+    grid-template-columns: 3fr 1fr;
+  }
+}
+
 canvas {
   background-color: black;
 }
 
 aside {
-  margin-block: 1rem;
-  padding: 1rem;
-  @media (width > 40rem) {
-    grid-template-columns: 3fr 1fr;
-  }
-
   select, .bt {
     padding: 1rem;
     width: 100%;
+    font-size: 1.6rem;
     font-weight: bold;
   }
   select option {
     text-align: center;
   }
-  .bt {
-    @media (width > 40rem) {
-      grid-area: 1/2/2/3;
-    }
-  }
 }
+

@@ -22,10 +22,9 @@ const {
   croix, 
   galaxie, 
   planeur, 
-  LWSS,
-  canon
+  LWSS
 } = schemas
-const all= [...clignotant, ...croix, ...galaxie, ...planeur, ...LWSS, ...canon]
+const all= [...clignotant, ...croix, ...galaxie, ...planeur, ...LWSS]
 let state
 let startTime
 
@@ -150,10 +149,7 @@ function changeState(e){
     case 2:
       schema= croix.concat(LWSS)
       break
-    case 3:
-      schema= galaxie.concat(canon)
-      break
-    case 4:
+   case 3:
       schema= all
       break
     default:
@@ -164,6 +160,7 @@ function changeState(e){
   initState(schema)
 }
 function randState(){
+  select.children[0].removeAttribute("selected")
   const newS= []
 
   for (let i=0; i<state.length; i++){
@@ -178,6 +175,7 @@ function randState(){
   }
 
   state= newS
+  select.children[0].setAttribute("selected", true)
 }
 
 initState(galaxie)

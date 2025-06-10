@@ -1,0 +1,1 @@
+import{NumberFn}from"./scripts/lib.js";let numFn=new NumberFn;class Cell{constructor(t,s,e=0){this.x=t,this.y=s}draw(t){var s=[Math.round(t.canvas.width/t.size),Math.round(t.canvas.height/t.size)];t.beginPath(),t.fillStyle=this.#style(120,100,50),t.fillRect(this.x*s[0],this.y*s[1],s[0],s[1]),t.closePath()}#style(t,s,e){return`hsl(${t}, ${s}%, ${e}%)`}}export{Cell};
