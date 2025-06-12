@@ -13,7 +13,7 @@
 body {
   position: relative;
   min-height: 100dvh;
-  background-color: hsl(var(--clr-lighter));
+  background-color: hsl(var(--clr-lighter), .4);
 }
 body > * {
   display: flow-root;
