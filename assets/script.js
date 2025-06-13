@@ -1,6 +1,5 @@
 import { FetchFn, NumberFn } from "./scripts/lib.js";
 import { DomFn } from "./scripts/client.js";
-import { Cell } from "./Game.js"
 
 // UTILS
 const domFn = new DomFn();
@@ -12,10 +11,11 @@ const select= domFn.select("aside > select")
 const button= domFn.select("aside > button")
 const canvas= domFn.select("canvas")
 const ctxt= canvas.getContext("2d")
-ctxt.size= 100
-
+const gridSize= 100
 const width= canvas.width
 const height= canvas.height
+const cellWidth= width/gridSize
+const cellHeight= height/gridSize
 const schemas= await fetchFn.get(null, "json", location.href + "assets/GameSchemas.json")
 const {
   clignotant, 
@@ -31,79 +31,51 @@ let startTime
 function initState(schema= []){
   state= []
 
-  for (let i=0; i<ctxt.size; i++){
-    state.push([])
+  for (let i=0; i<gridSize; i++){
+    state[i]= []
   
-    for (let j=0; j<ctxt.size; j++){
-      state[i][j]= new Cell(j, i)
+    for (let j=0; j<gridSize; j++){
+      state[i][j]= false
     }
   }
-  
+
   schema.forEach(c=>{
-    state[c[1]][c[0]].live= true
+    state[c[1]][c[0]]= true
   })
 }
-function drawGrid(){
-  ctxt.strokeStyle= "white"
+function getNbrs(x, y){
+  const nbrs= []
 
-  for (let i=0, j=-ctxt.size; j<ctxt.size; i++, j++){
-    if (j>=0) {
-      const col= width/ctxt.size
+  for (let i= x-1; i< x+2; i++){
+    for (let j= y-1; j< y+2; j++){
+      if (x===i && y===j) continue
 
-      ctxt.beginPath()
-      ctxt.moveTo(j*col, 0)
-      ctxt.lineTo(j*col, height)
-      ctxt.stroke()
-      ctxt.closePath()
-    } else {
-      const row= height/ctxt.size
-
-      ctxt.beginPath()
-      ctxt.moveTo(0, i*row)
-      ctxt.lineTo(width, i*row)
-      ctxt.stroke()
-      ctxt.closePath()
+      const k= numFn.loop(i, 0, gridSize - 1)
+      const l= numFn.loop(j, 0, gridSize - 1)
+      nbrs.push(state[k][l])
     }
   }
+
+  return nbrs
 }
 function nextState(){
   const next= [] 
 
   for (let i=0; i<state.length; i++){
-    next.push([])
+    next[i]= []
 
     for (let j=0; j<state.length; j++){
-      next[i][j]= new Cell(j,i)
-      next[i][j].live= state[i][j].live
+      next[i][j]= state[i][j]
+      const validNbrs= getNbrs(i,j).filter(c=>c)
 
-      const topLeft= state[i-1] ? state[i-1][j-1] : null
-      const top= state[i][j-1]
-      const topRight= state[i+1] ? state[i+1][j-1] : null
-      const left= state[i-1] ? state[i-1][j] : null
-      const right= state[i+1] ? state[i+1][j] : null
-      const bottomLeft= state[i-1] ? state[i-1][j+1] : null
-      const bottom= state[i][j+1]
-      const bottomRight= state[i+1] ? state[i+1][j+1] : null
-      const neighbors= [
-	topLeft,
-	top,
-	topRight,
-	left,
-	right,
-	bottomLeft,
-	bottom,
-	bottomRight
-      ]
-      const nextState= neighbors.filter(c=>c && c.live)
-
-      switch (nextState.length) {
+      switch (validNbrs.length) {
 	case 3:
-	  next[i][j].live= true
+	  next[i][j]= true
 	  break
 	case 2:
 	  break
 	default: 
-	  next[i][j].live= false
+	  next[i][j]= false
 	  break
       }
     }
@@ -114,6 +86,15 @@ function nextState(){
 function clearCanvas(){
   const clearSize= Math.max(width, height)
   ctxt.clearRect(-10, -10, clearSize+20, clearSize+20)
+}
+function drawCell(x, y, color= [120, 100, 50]){
+  const style= `hsl(${color[0]}, ${color[1]}%, ${color[2]}%)`
+
+  ctxt.beginPath()
+  ctxt.fillStyle= style
+  ctxt.rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight)
+  ctxt.fill()
+  ctxt.closePath()
 }
 function loop(time){
   if (!startTime){
@@ -126,10 +107,9 @@ function loop(time){
   startTime= time
 
   clearCanvas()
-  // drawGrid()
   for (let i=0; i<state.length; i++){
     for (let j=0; j<state.length; j++){
-      if (state[i][j].live) state[i][j].draw(ctxt)
+      if (state[i][j]) drawCell(j, i)
     }
   }
   nextState()
@@ -164,13 +144,11 @@ function randState(){
   const newS= []
 
   for (let i=0; i<state.length; i++){
-    newS.push([])
+    newS[i]= []
 
     for (let j=0; j<state.length; j++){
       const rand= numFn.rand(100)
-      
-      newS[i][j]= new Cell(j,i)
-      newS[i][j].live= rand < 10
+      newS[i][j]= rand < 10
     }
   }
 
