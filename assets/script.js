@@ -18,13 +18,13 @@ const cellWidth= width/gridSize
 const cellHeight= height/gridSize
 const schemas= await fetchFn.get(null, "json", location.href + "assets/GameSchemas.json")
 const {
-  clignotant, 
-  croix, 
-  galaxie, 
-  planeur, 
+  blinker, 
+  cross, 
+  galaxy, 
+  glider, 
   LWSS
 } = schemas
-const all= [...clignotant, ...croix, ...galaxie, ...planeur, ...LWSS]
+const all= [...blinker, ...cross, ...galaxy, ...glider, ...LWSS]
 let state
 let startTime
 
@@ -124,10 +124,10 @@ function changeState(e){
 
   switch (newS) {
     case 1:
-      schema= clignotant.concat(planeur)
+      schema= blinker.concat(glider)
       break
     case 2:
-      schema= croix.concat(LWSS)
+      schema= cross.concat(LWSS)
       break
    case 3:
       schema= all
