@@ -156,7 +156,7 @@ function randState(){
   select.children[0].setAttribute("selected", true)
 }
 
-initState(galaxie)
+initState(galaxy)
 loop()
 select.addEventListener("change", changeState)
 button.addEventListener("click", randState)
